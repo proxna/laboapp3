@@ -6,6 +6,8 @@ import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,12 +19,14 @@ public class MainActivity extends AppCompatActivity {
         String[] projection=new String[]{
                 CalendarContract.Events._ID,
                 CalendarContract.Events.TITLE,
-                CalendarContract.Events.RDATE
+                CalendarContract.Events.DTSTART
         };
         Cursor cursor=getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, null, null, CalendarContract.Events._ID+" ASC");
         if(cursor.moveToFirst()){
             textView.setText(cursor.getString(1));
-            textView1.setText(cursor.getString(2));
+            long tmpDate=Long.parseLong(cursor.getString(2));
+            DateFormat.getDateInstance().format(tmpDate);
+            textView1.setText(DateFormat.getDateInstance().format(tmpDate));
         }
     }
 }
